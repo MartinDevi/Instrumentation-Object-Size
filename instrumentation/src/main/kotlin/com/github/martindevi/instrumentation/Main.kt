@@ -13,6 +13,16 @@ fun main() {
 
     println()
 
+    val mapLazyInitialized = mutableMapOf<String, String>().also {
+        fill { key, value -> it[key] = value }
+        it.keys
+        it.values
+        it.entries
+    }
+    val mapLazyInitializedSize = evaluateSize("map lazy initialized", mapLazyInitialized)
+
+    println()
+
     val hashMap = HashMap<String, String>().also {
         fill { key, value -> it[key] = value }
     }
@@ -42,6 +52,7 @@ fun main() {
     println()
 
     println("Map size: $mapSize")
+    println("Map lazy initialized size: $mapLazyInitializedSize")
     println("Hash Map size: $hashMapSize")
     println("Tree Map size: $treeMapSize")
     println("Simple Array Map size: $simpleArrayMapSize")
