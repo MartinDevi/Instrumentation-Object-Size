@@ -42,7 +42,7 @@ fun main() {
 private inline fun fill(block: (String, String) -> Unit) {
     val alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVZXYZ0123456789"
     val random = Random(37848389588346L)
-    repeat(256) {
+    repeat(16) {
         val key = String(CharArray(32) { alphabet[random.nextInt(alphabet.length)] })
         val value = String(CharArray(32) { alphabet[random.nextInt(alphabet.length)] })
         block(key, value)
