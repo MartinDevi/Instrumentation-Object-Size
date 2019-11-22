@@ -21,7 +21,7 @@ private fun Any.getObjectSize(name: String, indent: String, visited: MutableSet<
                         getArrayElementsSize("$indent  ", visited)
                     }
                 } else {
-                    getFieldsSize("$indent  ", visited)
+                    getFieldsSize("${indent.replace('─', ' ').replace('├', '|')}├── ", visited)
                 }
     } else {
         println("$indent* $name: $javaClass")
