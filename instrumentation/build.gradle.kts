@@ -14,5 +14,6 @@ tasks.run.configure {
 
 dependencies {
     api(kotlin("stdlib"))
+    api("androidx.collection:collection-ktx:1.1.0")
     compileOnly(project(":instrumentation-agent"))
 }
