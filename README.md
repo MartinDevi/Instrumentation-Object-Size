@@ -16,3 +16,4 @@ values which are strings of 32 characters.
 | `HashMap`        | 4032 |
 | `TreeMap`        | 4016 |
 | `SimpleArrayMap` | 3600 |
+| `ArrayMap`       | 3608 |

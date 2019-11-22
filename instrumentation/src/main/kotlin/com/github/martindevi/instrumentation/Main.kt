@@ -1,5 +1,6 @@
 package com.github.martindevi.instrumentation
 
+import androidx.collection.ArrayMap
 import androidx.collection.SimpleArrayMap
 import java.util.*
 import kotlin.collections.HashMap
@@ -33,10 +34,18 @@ fun main() {
 
     println()
 
+    val arrayMap = ArrayMap<String, String>().apply {
+        fill { key, value -> put(key, value)}
+    }
+    val arrayMapSize = evaluateSize("array map", arrayMap)
+
+    println()
+
     println("Map size: $mapSize")
     println("Hash Map size: $hashMapSize")
     println("Tree Map size: $treeMapSize")
     println("Simple Array Map size: $simpleArrayMapSize")
+    println("Array Map size: $arrayMapSize")
 }
 
 private inline fun fill(block: (String, String) -> Unit) {
