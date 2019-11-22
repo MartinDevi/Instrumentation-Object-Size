@@ -8,10 +8,9 @@ application {
     applicationDefaultJvmArgs = listOf("-javaagent:${rootProject.file("instrumentation-agent/build/libs/instrumentation-agent.jar").canonicalPath}")
 }
 
-// TODO: Configure dependency on artifact of agent module
-//tasks.run.configure {
-//    dependsOn()
-//}
+tasks.run.configure {
+    dependsOn(":instrumentation-agent:jar")
+}
 
 dependencies {
     api(kotlin("stdlib"))
