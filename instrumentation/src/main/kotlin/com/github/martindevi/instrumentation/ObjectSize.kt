@@ -24,12 +24,13 @@ private fun Any.getObjectSize(name: String, indent: String, visited: MutableSet<
                     getFieldsSize("$indent  ", visited)
                 }
     } else {
+        println("$indent* $name: $javaClass")
         0L
     }
 
 private fun Any.getArrayElementsSize(indent: String, visited: MutableSet<Int>): Long =
     List(Array.getLength(this)) {
-        Array.get(this, it)?.getObjectSize("[0]", indent, visited) ?: 0
+        Array.get(this, it)?.getObjectSize("[$it]", indent, visited) ?: 0
     }.sum()
 
 private fun Any.getFieldsSize(indent: String, visited: MutableSet<Int>): Long =
@@ -39,12 +40,12 @@ private fun Any.getFieldsSize(indent: String, visited: MutableSet<Int>): Long =
             val type = field.type
             if (type.isPrimitive) {
                 // Primitive fields size is already considered by `getObjectSize` since there's no reference to them
-                println("${indent}0 ${field.name}: $type")
+                println("${indent}# ${field.name}: $type")
                 0L
             } else {
                 val value = field.get(this)
                 if (value == null) {
-                    println("${indent}0 ${field.name}: null $type")
+                    println("${indent}! ${field.name}: null $type")
                     0L
                 } else {
                     value.getObjectSize(field.name, indent, visited)
