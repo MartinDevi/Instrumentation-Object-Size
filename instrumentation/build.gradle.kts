@@ -5,7 +5,13 @@ plugins {
 
 application {
     mainClassName = "com.example.instrumentation.MainKt"
-    applicationDefaultJvmArgs = listOf("-javaagent:${rootProject.file("instrumentation-agent/build/libs/instrumentation-agent.jar").canonicalPath}")
+
+    val instrumentationAgentProject =
+        project(":instrumentation-agent")
+    val instrumentationAgentJar =
+        instrumentationAgentProject.file("build/libs/instrumentation-agent.jar")
+    applicationDefaultJvmArgs =
+        listOf("-javaagent:${instrumentationAgentJar.canonicalPath}")
 }
 
 tasks.run.configure {
