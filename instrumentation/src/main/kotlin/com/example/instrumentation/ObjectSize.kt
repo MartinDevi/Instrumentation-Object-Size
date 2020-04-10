@@ -1,6 +1,6 @@
-package com.github.martindevi.instrumentation
+package com.example.instrumentation
 
-import com.github.martindevi.instrumentation.agent.InstrumentationAgent
+import com.example.instrumentation.agent.InstrumentationAgent
 import java.lang.reflect.Array
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier

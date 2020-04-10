@@ -7,9 +7,6 @@ dependencies {
 }
 
 tasks.jar {
-    manifest {
-        attributes(
-            "Premain-class" to "com.github.martindevi.instrumentation.agent.InstrumentationAgent"
-        )
-    }
+    manifest.attributes["Premain-class"] =
+        "com.example.instrumentation.agent.InstrumentationAgent"
 }

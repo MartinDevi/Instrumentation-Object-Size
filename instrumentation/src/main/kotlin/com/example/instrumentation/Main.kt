@@ -1,4 +1,4 @@
-package com.github.martindevi.instrumentation
+package com.example.instrumentation
 
 import androidx.collection.ArrayMap
 import androidx.collection.SimpleArrayMap
@@ -19,7 +19,8 @@ fun main() {
         it.values
         it.entries
     }
-    val mapLazyInitializedSize = evaluateSize("map lazy initialized", mapLazyInitialized)
+    val mapLazyInitializedSize =
+        evaluateSize("map lazy initialized", mapLazyInitialized)
 
     println()
 
@@ -38,14 +39,15 @@ fun main() {
     println()
 
     val simpleArrayMap = SimpleArrayMap<String, String>().apply {
-        fill { key, value -> put(key, value)}
+        fill { key, value -> put(key, value) }
     }
-    val simpleArrayMapSize = evaluateSize("simple array map", simpleArrayMap)
+    val simpleArrayMapSize =
+        evaluateSize("simple array map", simpleArrayMap)
 
     println()
 
     val arrayMap = ArrayMap<String, String>().apply {
-        fill { key, value -> put(key, value)}
+        fill { key, value -> put(key, value) }
     }
     val arrayMapSize = evaluateSize("array map", arrayMap)
 

@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-    mainClassName = "com.github.martindevi.instrumentation.MainKt"
+    mainClassName = "com.example.instrumentation.MainKt"
     applicationDefaultJvmArgs = listOf("-javaagent:${rootProject.file("instrumentation-agent/build/libs/instrumentation-agent.jar").canonicalPath}")
 }
 
