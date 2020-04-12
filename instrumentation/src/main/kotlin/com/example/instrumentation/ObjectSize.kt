@@ -10,7 +10,7 @@ fun Any.getObjectSize(name: String): Long =
 
 private fun Any.getObjectSize(name: String, indent: String, visited: MutableSet<Int>): Long =
     if (visited.add(System.identityHashCode(this))) {
-        val objectSize = InstrumentationAgent.getObjectSize(this)
+        val objectSize = InstrumentationAgent.getSize(this)
         println("$indent$objectSize $name: $javaClass")
         objectSize +
                 if (javaClass.isArray) {

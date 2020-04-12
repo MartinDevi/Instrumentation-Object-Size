@@ -15,5 +15,5 @@ object InstrumentationAgent {
     }
 
     @JvmStatic
-    fun getObjectSize(any: Any): Long = instrumentation.getObjectSize(any)
+    fun getSize(any: Any): Long = instrumentation.getObjectSize(any)
 }
