@@ -9,6 +9,8 @@ import kotlin.collections.HashMap
 fun main() {
     printObjectSizes()
     println()
+    printStringSize()
+    println()
     printCollectionSizes()
 }
 
@@ -123,6 +125,15 @@ fun printObjectSizes() {
         },
         "object { val int1: Int = 0; /* ... */ val int4: Int = 0 }"
     )
+}
+
+fun printStringSize() {
+    val s = "Hello, World!"
+    println(s.javaClass.name + "@" + Integer.toHexString(System.identityHashCode(s)))
+    val array = s.javaClass.declaredFields.first { it.name == "value" }.apply { isAccessible = true }.get(s) as CharArray
+    println(array.javaClass.name + "@" + Integer.toHexString(System.identityHashCode(array)))
+    val size = evaluateSize(s, s)
+    println(size)
 }
 
 fun printObjectSize(any: Any, description: String) {
