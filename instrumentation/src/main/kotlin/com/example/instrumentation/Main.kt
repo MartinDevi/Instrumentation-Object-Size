@@ -2,10 +2,135 @@ package com.example.instrumentation
 
 import androidx.collection.ArrayMap
 import androidx.collection.SimpleArrayMap
+import com.example.instrumentation.agent.InstrumentationAgent
 import java.util.*
 import kotlin.collections.HashMap
 
 fun main() {
+    printObjectSizes()
+    println()
+    printCollectionSizes()
+}
+
+@Suppress("unused")
+fun printObjectSizes() {
+    printObjectSize(ByteArray(0), "ByteArray(0)")
+    printObjectSize(ByteArray(1), "ByteArray(1)")
+    printObjectSize(ByteArray(2), "ByteArray(2)")
+    printObjectSize(ByteArray(8), "ByteArray(8)")
+    printObjectSize(ByteArray(9), "ByteArray(9)")
+    printObjectSize(IntArray(0), "IntArray(0)")
+    printObjectSize(IntArray(1), "IntArray(1)")
+    printObjectSize(IntArray(2), "IntArray(2)")
+    printObjectSize(IntArray(3), "IntArray(3)")
+    printObjectSize(IntArray(4), "IntArray(4)")
+    printObjectSize(IntArray(5), "IntArray(5)")
+    printObjectSize(object {}, "object {}")
+    printObjectSize(
+        object {
+            val byte: Byte = 0
+        },
+        "object { val byte: Byte = 0 }"
+    )
+    printObjectSize(
+        object {
+            val byte1: Byte = 0
+            val byte3: Byte = 0
+        },
+        "object { val byte1: Byte = 0; val byte2: Byte = 0 }"
+    )
+    printObjectSize(
+        object {
+            val byte1: Byte = 0
+            val byte2: Byte = 0
+            val byte3: Byte = 0
+            val byte4: Byte = 0
+        },
+        "object { val byte1: Byte = 0; /* ... */ val byte4: Byte = 0 }"
+    )
+    printObjectSize(
+        object {
+            val byte1: Byte = 0
+            val byte2: Byte = 0
+            val byte3: Byte = 0
+            val byte4: Byte = 0
+            val byte5: Byte = 0
+        },
+        "object { val byte1: Byte = 0; /* ... */ val byte5: Byte = 0 }"
+    )
+    printObjectSize(
+        object {
+            val byte1: Byte = 0
+            val byte2: Byte = 0
+            val byte3: Byte = 0
+            val byte4: Byte = 0
+            val byte5: Byte = 0
+            val byte6: Byte = 0
+            val byte7: Byte = 0
+            val byte8: Byte = 0
+            val byte9: Byte = 0
+            val byte10: Byte = 0
+            val byte11: Byte = 0
+            val byte12: Byte = 0
+        },
+        "object { val byte1: Byte = 0; /* ... */ val byte12: Byte = 0 }"
+    )
+    printObjectSize(
+        object {
+            val byte1: Byte = 0
+            val byte2: Byte = 0
+            val byte3: Byte = 0
+            val byte4: Byte = 0
+            val byte5: Byte = 0
+            val byte6: Byte = 0
+            val byte7: Byte = 0
+            val byte8: Byte = 0
+            val byte9: Byte = 0
+            val byte10: Byte = 0
+            val byte11: Byte = 0
+            val byte12: Byte = 0
+            val byte13: Byte = 0
+        },
+        "object { val byte1: Byte = 0; /* ... */ val byte13: Byte = 0 }"
+    )
+    printObjectSize(
+        object {
+            val int: Int = 0
+        },
+        "object { val int: Int = 0 }"
+    )
+    printObjectSize(
+        object {
+            val int1: Int = 0
+            val int2: Int = 0
+        },
+        "object { val int1: Int = 0; val int2: Int = 0 }"
+    )
+    printObjectSize(
+        object {
+            val int1: Int = 0
+            val int2: Int = 0
+            val int3: Int = 0
+        },
+        "object { val int1: Int = 0; /* ... */ val int3: Int = 0 }"
+    )
+    printObjectSize(
+        object {
+            val int1: Int = 0
+            val int2: Int = 0
+            val int3: Int = 0
+            val int4: Int = 0
+        },
+        "object { val int1: Int = 0; /* ... */ val int4: Int = 0 }"
+    )
+}
+
+fun printObjectSize(any: Any, description: String) {
+    println(description)
+    println(InstrumentationAgent.getSize(any))
+}
+
+private fun printCollectionSizes() {
     val map = mutableMapOf<String, String>().also {
         fill { key, value -> it[key] = value }
     }
