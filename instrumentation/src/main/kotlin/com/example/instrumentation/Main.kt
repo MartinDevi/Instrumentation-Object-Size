@@ -160,7 +160,8 @@ fun printObjectSizes() {
 fun printStringSize() {
     val s = "Hello, World!"
     println(s.javaClass.name + "@" + Integer.toHexString(System.identityHashCode(s)))
-    val array = s.javaClass.declaredFields.first { it.name == "value" }.apply { isAccessible = true }.get(s) as CharArray
+    val array =
+        s.javaClass.declaredFields.first { it.name == "value" }.apply { isAccessible = true }.get(s) as CharArray
     println(array.javaClass.name + "@" + Integer.toHexString(System.identityHashCode(array)))
     val size = evaluateSize(s, s)
     println(size)
@@ -171,70 +172,65 @@ fun printObjectSize(any: Any, description: String) {
     println(InstrumentationAgent.getSize(any))
 }
 
+@Suppress("unused")
 private fun printCollectionSizes() {
     val map = mutableMapOf<String, String>().also {
         fill { key, value -> it[key] = value }
     }
     val mapSize = evaluateSize("map", map)
 
+    println("Map size: $mapSize")
     println()
 
-    val mapLazyInitialized = mutableMapOf<String, String>().also {
-        fill { key, value -> it[key] = value }
-        it.keys
-        it.values
-        it.entries
+    val any = object {
+        val MPEVTG: String = "ANKZVT"
+        val TOMJTA: String = "GONITO"
+        val FVXEXI: String = "PAOBRW"
+        val AUGNQE: String = "KDUNYJ"
     }
-    val mapLazyInitializedSize =
-        evaluateSize("map lazy initialized", mapLazyInitialized)
+    val anySize = evaluateSize("object", any)
 
+    println("Object size: $anySize")
     println()
 
     val hashMap = HashMap<String, String>().also {
         fill { key, value -> it[key] = value }
     }
-    val hashMapSize = evaluateSize("hash map", hashMap)
+    val hashMapSize = evaluateSize("hashMap", hashMap)
 
+    println("HashMap size: $hashMapSize")
     println()
 
     val treeMap = TreeMap<String, String>().also {
         fill { key, value -> it[key] = value }
     }
-    val treeMapSize = evaluateSize("tree map", treeMap)
+    val treeMapSize = evaluateSize("treeMap", treeMap)
 
+    println("TreeMap size: $treeMapSize")
     println()
 
-    val simpleArrayMap = SimpleArrayMap<String, String>().apply {
-        fill { key, value -> put(key, value) }
+    val arrayMap = ArrayMap<String, String>().also {
+        fill { key, value -> it.put(key, value) }
     }
-    val simpleArrayMapSize =
-        evaluateSize("simple array map", simpleArrayMap)
+    val arrayMapSize = evaluateSize("arrayMap", arrayMap)
 
+    println("ArrayMap size: $arrayMapSize")
     println()
 
-    val arrayMap = ArrayMap<String, String>().apply {
-        fill { key, value -> put(key, value) }
+    val simpleArrayMap = SimpleArrayMap<String, String>().also {
+        fill { key, value -> it.put(key, value) }
     }
-    val arrayMapSize = evaluateSize("array map", arrayMap)
+    val simpleArrayMapSize = evaluateSize("simpleArrayMap", simpleArrayMap)
 
+    println("SimpleArrayMap size: $simpleArrayMapSize")
     println()
-
-    println("Map size: $mapSize")
-    println("Map lazy initialized size: $mapLazyInitializedSize")
-    println("Hash Map size: $hashMapSize")
-    println("Tree Map size: $treeMapSize")
-    println("Simple Array Map size: $simpleArrayMapSize")
-    println("Array Map size: $arrayMapSize")
 }
 
 private inline fun fill(block: (String, String) -> Unit) {
-    val alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVZXYZ0123456789"
-    val random = Random(37848389588346L)
-    repeat(16) {
-        val key = String(CharArray(32) { alphabet[random.nextInt(alphabet.length)] })
-        val value = String(CharArray(32) { alphabet[random.nextInt(alphabet.length)] })
-        block(key, value)
-    }
+    block("MPEVTG", "ANKZVT")
+    block("TOMJTA", "GONITO")
+    block("FVXEXI", "PAOBRW")
+    block("AUGNQE", "KDUNYJ")
 }
 
 private fun evaluateSize(name: String, instance: Any): Long {
