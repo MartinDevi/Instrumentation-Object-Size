@@ -159,11 +159,12 @@ fun printObjectSizes() {
 
 fun printStringSize() {
     val s = "Hello, World!"
-    println(s.javaClass.name + "@" + Integer.toHexString(System.identityHashCode(s)))
+    println(s)
+    println("${s.javaClass.name}@${Integer.toHexString(System.identityHashCode(s))}: ${InstrumentationAgent.getSize(s)}")
     val array =
         s.javaClass.declaredFields.first { it.name == "value" }.apply { isAccessible = true }.get(s) as CharArray
-    println(array.javaClass.name + "@" + Integer.toHexString(System.identityHashCode(array)))
-    val size = evaluateSize(s, s)
+    println("${array.javaClass.name}@${Integer.toHexString(System.identityHashCode(array))}: ${InstrumentationAgent.getSize(array)}")
+    val size = s.getObjectGraphSize()
     println(size)
 }
 
