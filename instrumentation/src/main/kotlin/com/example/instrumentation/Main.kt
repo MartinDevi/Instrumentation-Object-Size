@@ -125,6 +125,36 @@ fun printObjectSizes() {
         },
         "object { val int1: Int = 0; /* ... */ val int4: Int = 0 }"
     )
+    printObjectSize(
+        object {
+            val any: Any? = null
+        },
+        "object { val any: Any? = null }"
+    )
+    printObjectSize(
+        object {
+            val any1: Any? = null
+            val any2: Any? = null
+        },
+        "object { val any1: Any? = null; val any2: Any? = null }"
+    )
+    printObjectSize(
+        object {
+            val any1: Any? = null
+            val any2: Any? = null
+            val any3: Any? = null
+        },
+        "object { val any1: Any? = null; /* ... */ val any3: Any? = null }"
+    )
+    printObjectSize(
+        object {
+            val any1: Any? = null
+            val any2: Any? = null
+            val any3: Any? = null
+            val any4: Any? = null
+        },
+        "object { val any1: Any? = null; /* ... */ val any4: Any? = null }"
+    )
 }
 
 fun printStringSize() {
