@@ -24,3 +24,10 @@ dependencies {
     api("androidx.collection:collection-ktx:1.1.0")
     compileOnly(project(":instrumentation-agent"))
 }
+
+task<Exec>("pngs") {
+    group = "application"
+    description = "Generate PNGs for reference graphs"
+    dependsOn("run")
+    commandLine("./dot_png.sh")
+}

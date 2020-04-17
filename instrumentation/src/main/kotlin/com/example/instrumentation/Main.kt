@@ -180,10 +180,10 @@ fun printObjectSize(any: Any, description: String) {
 
 @Suppress("unused")
 private fun printCollectionSizes(dotOutputDir: File) {
-    val map = LinkedHashMap<String, String>().also {
+    val linkedHashMap = LinkedHashMap<String, String>().also {
         fill { key, value -> it[key] = value }
     }
-    evaluateSize("LinkedHashMap", map, dotOutputDir)
+    evaluateSize("LinkedHashMap", linkedHashMap, dotOutputDir)
 
     val any = object {
         val MPEVTG: String = "ANKZVT"
@@ -212,6 +212,15 @@ private fun printCollectionSizes(dotOutputDir: File) {
         fill { key, value -> it.put(key, value) }
     }
     evaluateSize("SimpleArrayMap", simpleArrayMap, dotOutputDir)
+
+    val map = mapOf(
+        "MPEVTG" to "ANKZVT",
+        "TOMJTA" to "GONITO",
+        "FVXEXI" to "PAOBRW",
+        "AUGNQE" to "KDUNYJ"
+    )
+    evaluateSize("mapOf", map, dotOutputDir)
+
 }
 
 private inline fun fill(block: (String, String) -> Unit) {

@@ -84,7 +84,12 @@ private val Any.nodeLabel: String?
                 "Array<${javaClass.componentType.name}>"
             }
         } else {
-            javaClass.name
+            if (javaClass.isAnonymousClass || javaClass.name.matches(Regex(".+\\$\\d+$"))) {
+                // anonymous class
+                "object"
+            } else {
+                javaClass.name
+            }
         }
 
 private fun Writer.appendReferenceEdge(
