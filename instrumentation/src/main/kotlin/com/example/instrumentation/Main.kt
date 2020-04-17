@@ -211,7 +211,7 @@ private fun printCollectionSizes() {
     println()
 
     val arrayMap = ArrayMap<String, String>().also {
-        fill { key, value -> it.put(key, value) }
+        fill { key, value -> it[key] = value }
     }
     val arrayMapSize = evaluateSize("arrayMap", arrayMap)
 
@@ -236,7 +236,7 @@ private inline fun fill(block: (String, String) -> Unit) {
 
 private fun evaluateSize(name: String, instance: Any): Long {
     println("==> Evaluating $name size")
-    val size = instance.getObjectSize(name)
+    printObjectGraph(instance)
     println("<== Evaluating $name size")
-    return size
+    return instance.getObjectGraphSize()
 }
