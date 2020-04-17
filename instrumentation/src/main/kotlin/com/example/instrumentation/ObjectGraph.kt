@@ -10,8 +10,10 @@ fun Writer.appendObjectGraph(any: Any, title: String) = apply {
     appendln("digraph {")
     appendln(" label=\"$title\";")
     appendln(" labelloc=\"t\";")
-    appendln(" node[fontsize=12,shape=box,fixedsize=true];")
-    appendln(" edge[fontsize=12];")
+    appendln(" bgcolor=transparent;")
+    appendln(" fontcolor=white;")
+    appendln(" node[fontsize=12,shape=box,fixedsize=true,color=white;fontcolor=white];")
+    appendln(" edge[fontsize=12,color=white,fontcolor=white];")
     appendObjectGraph(any, mutableSetOf())
     appendln("}")
 }
