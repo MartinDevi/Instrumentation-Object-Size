@@ -6,12 +6,9 @@ import java.lang.reflect.Array
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 
-fun Writer.appendObjectGraph(any: Any, title: String) = apply {
+fun Writer.appendObjectGraph(any: Any) = apply {
     appendln("digraph {")
-    appendln(" label=\"$title\";")
-    appendln(" labelloc=\"t\";")
     appendln(" bgcolor=transparent;")
-    appendln(" fontcolor=white;")
     appendln(" node[fontsize=12,shape=box,fixedsize=true,color=white;fontcolor=white];")
     appendln(" edge[fontsize=12,color=white,fontcolor=white];")
     appendObjectGraph(any, mutableSetOf())
