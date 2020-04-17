@@ -3,15 +3,19 @@ package com.example.instrumentation
 import androidx.collection.ArrayMap
 import androidx.collection.SimpleArrayMap
 import com.example.instrumentation.agent.InstrumentationAgent
+import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
 
-fun main() {
+fun main(args: Array<String>) {
     printObjectSizes()
     println()
+
     printStringSize()
     println()
-    printCollectionSizes()
+
+    val dotOutputDir = File(args.single()).apply { mkdirs() }
+    printCollectionSizes(dotOutputDir)
 }
 
 @Suppress("unused")
@@ -174,14 +178,11 @@ fun printObjectSize(any: Any, description: String) {
 }
 
 @Suppress("unused")
-private fun printCollectionSizes() {
+private fun printCollectionSizes(dotOutputDir: File) {
     val map = mutableMapOf<String, String>().also {
         fill { key, value -> it[key] = value }
     }
-    val mapSize = evaluateSize("map", map)
-
-    println("Map size: $mapSize")
-    println()
+    evaluateSize("mutableMapOf", map, dotOutputDir)
 
     val any = object {
         val MPEVTG: String = "ANKZVT"
@@ -189,42 +190,27 @@ private fun printCollectionSizes() {
         val FVXEXI: String = "PAOBRW"
         val AUGNQE: String = "KDUNYJ"
     }
-    val anySize = evaluateSize("object", any)
-
-    println("Object size: $anySize")
-    println()
+    evaluateSize("object", any, dotOutputDir)
 
     val hashMap = HashMap<String, String>().also {
         fill { key, value -> it[key] = value }
     }
-    val hashMapSize = evaluateSize("hashMap", hashMap)
-
-    println("HashMap size: $hashMapSize")
-    println()
+    evaluateSize("HashMap", hashMap, dotOutputDir)
 
     val treeMap = TreeMap<String, String>().also {
         fill { key, value -> it[key] = value }
     }
-    val treeMapSize = evaluateSize("treeMap", treeMap)
-
-    println("TreeMap size: $treeMapSize")
-    println()
+    evaluateSize("TreeMap", treeMap, dotOutputDir)
 
     val arrayMap = ArrayMap<String, String>().also {
         fill { key, value -> it[key] = value }
     }
-    val arrayMapSize = evaluateSize("arrayMap", arrayMap)
-
-    println("ArrayMap size: $arrayMapSize")
-    println()
+    evaluateSize("ArrayMap", arrayMap, dotOutputDir)
 
     val simpleArrayMap = SimpleArrayMap<String, String>().also {
         fill { key, value -> it.put(key, value) }
     }
-    val simpleArrayMapSize = evaluateSize("simpleArrayMap", simpleArrayMap)
-
-    println("SimpleArrayMap size: $simpleArrayMapSize")
-    println()
+    evaluateSize("SimpleArrayMap", simpleArrayMap, dotOutputDir)
 }
 
 private inline fun fill(block: (String, String) -> Unit) {
@@ -234,9 +220,10 @@ private inline fun fill(block: (String, String) -> Unit) {
     block("AUGNQE", "KDUNYJ")
 }
 
-private fun evaluateSize(name: String, instance: Any): Long {
-    println("==> Evaluating $name size")
-    printObjectGraph(instance)
-    println("<== Evaluating $name size")
-    return instance.getObjectGraphSize()
+private fun evaluateSize(name: String, instance: Any, dotOutputDir: File) {
+    val size = instance.getObjectGraphSize()
+    File(dotOutputDir, "$name.dot").writer().use {
+        it.appendObjectGraph(instance, "$name\\nsize=$size")
+    }
+    println("$name: $size")
 }

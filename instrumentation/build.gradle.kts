@@ -16,6 +16,7 @@ application {
 
 tasks.run.configure {
     dependsOn(":instrumentation-agent:jar")
+    args(file("build/outputs/dot").canonicalPath)
 }
 
 dependencies {
