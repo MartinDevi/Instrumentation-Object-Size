@@ -223,7 +223,7 @@ private inline fun fill(block: (String, String) -> Unit) {
 private fun evaluateSize(name: String, instance: Any, dotOutputDir: File) {
     val size = instance.getObjectGraphSize()
     File(dotOutputDir, "$name.dot").writer().use {
-        it.appendObjectGraph(instance, "$name\\nsize=$size")
+        it.appendObjectGraph(instance, name)
     }
     println("$name: $size")
 }

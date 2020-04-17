@@ -8,8 +8,10 @@ import java.lang.reflect.Modifier
 
 fun Writer.appendObjectGraph(any: Any, title: String) = apply {
     appendln("digraph {")
-    appendln("  label = \"$title\";")
-    appendln("  labelloc = \"t\";")
+    appendln(" label=\"$title\";")
+    appendln(" labelloc=\"t\";")
+    appendln(" node[fontsize=12,shape=box,fixedsize=true];")
+    appendln(" edge[fontsize=12];")
     appendObjectGraph(any, mutableSetOf())
     appendln("}")
 }
@@ -53,18 +55,45 @@ private fun Writer.appendFieldReferences(
         }
 }
 
+private const val NODE_SIZE_SCALE_FACTOR = 15
+
 private fun Writer.appendObjectNode(any: Any) {
     val size = InstrumentationAgent.getSize(any)
-    appendln("  \"${any.nodeName}\" [ label = \"${any.javaClass.name}\\nsize=$size\"];")
+    val nodeSize = size.toFloat() / NODE_SIZE_SCALE_FACTOR
+    appendln(" ${any.identityHashCode} [label=\"${any.nodeLabel}\",width=$nodeSize];")
 }
 
-private fun Writer.appendReferenceEdge(from: Any, to: Any, label: String, visited: MutableSet<Int>) {
-    appendln("  \"${from.nodeName}\" -> \"${to.nodeName}\" [ label=\"$label\" ];")
+private val Any.nodeLabel: String?
+    get() =
+        if (javaClass.isArray) {
+            if (javaClass.componentType.isPrimitive) {
+                when (javaClass.componentType) {
+                    Byte::class.java -> "ByteArray"
+                    Short::class.java -> "ShortArray"
+                    Int::class.java -> "IntArray"
+                    Long::class.java -> "LongArray"
+                    Float::class.java -> "FloatArray"
+                    Double::class.java -> "DoubleArray"
+                    Boolean::class.java -> "BooleanArray"
+                    Char::class.java -> "CharArray"
+                    else -> error("Unrecognized primitive array component type ${javaClass.componentType}")
+                }
+            } else {
+                "Array<${javaClass.componentType.name}>"
+            }
+        } else {
+            javaClass.name
+        }
+
+private fun Writer.appendReferenceEdge(
+    from: Any,
+    to: Any,
+    label: String,
+    visited: MutableSet<Int>
+) {
+    appendln(" ${from.identityHashCode} -> ${to.identityHashCode} [label=\"$label\"];")
     appendObjectGraph(to, visited)
 }
-
-private val Any.nodeName: String
-    get() = "${javaClass.name}@$identityHashCode"
 
 private val Any.identityHashCode: Int
     get() = System.identityHashCode(this)
