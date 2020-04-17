@@ -4,6 +4,7 @@ import androidx.collection.ArrayMap
 import androidx.collection.SimpleArrayMap
 import com.example.instrumentation.agent.InstrumentationAgent
 import java.io.File
+import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.collections.LinkedHashMap
@@ -17,6 +18,9 @@ fun main(args: Array<String>) {
 
     val dotOutputDir = File(args.single()).apply { mkdirs() }
     printCollectionSizes(dotOutputDir)
+    println()
+
+    printLargeMapSize()
 }
 
 @Suppress("unused")
@@ -237,3 +241,32 @@ private fun evaluateSize(name: String, instance: Any, dotOutputDir: File) {
     }
     println("$name: $size")
 }
+
+private const val SAMPLE_MAP_COUNT = 500
+private const val SAMPLE_MAP_SIZE = 30
+private const val SAMPLE_MAP_KEY_LENGTH = 10
+private const val SAMPLE_MAP_VALUE_LENGTH = 20
+
+fun printLargeMapSize() {
+    val map = mutableMapOf<String, String>().apply {
+        repeat(SAMPLE_MAP_SIZE) {
+            val key = randomString(SAMPLE_MAP_KEY_LENGTH)
+            val value = randomString(SAMPLE_MAP_VALUE_LENGTH)
+            put(key, value)
+        }
+    }
+    val size = map.getObjectGraphSize()
+    println("Map size: $SAMPLE_MAP_SIZE of strings of length 10")
+    println("Key size: $SAMPLE_MAP_KEY_LENGTH")
+    println("Value size: $SAMPLE_MAP_VALUE_LENGTH")
+    println(size)
+    println("Map count: $SAMPLE_MAP_COUNT")
+    val numberFormat = NumberFormat.getNumberInstance(Locale.US).apply { maximumFractionDigits = 2 }
+    println(numberFormat.format((SAMPLE_MAP_COUNT * size).toFloat() / 1_000_000) + "Mb")
+}
+
+private val alphabet = ('0'..'9').toList() + ('a'..'z').toList()
+private val random = Random(1587132898038L)
+
+private fun randomString(length: Int) =
+    String(CharArray(length) { alphabet[random.nextInt(alphabet.size)] })
