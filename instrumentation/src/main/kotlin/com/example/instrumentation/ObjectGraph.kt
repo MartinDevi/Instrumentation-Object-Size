@@ -82,7 +82,7 @@ private val Any.nodeLabel: String?
                 }
             } else {
                 "Array<${javaClass.componentType.name}>"
-            }
+            } + "(size=${Array.getLength(this)})"
         } else {
             if (javaClass.isAnonymousClass || javaClass.name.matches(Regex(".+\\$\\d+$"))) {
                 // anonymous class
