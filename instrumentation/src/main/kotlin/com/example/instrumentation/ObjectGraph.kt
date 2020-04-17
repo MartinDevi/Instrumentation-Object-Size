@@ -60,7 +60,7 @@ private const val NODE_SIZE_SCALE_FACTOR = 15
 private fun Writer.appendObjectNode(any: Any) {
     val size = InstrumentationAgent.getSize(any)
     val nodeSize = size.toFloat() / NODE_SIZE_SCALE_FACTOR
-    appendln(" ${any.identityHashCode} [label=\"${any.nodeLabel}\",width=$nodeSize];")
+    appendln(" ${any.identityHashCode} [label=\"${any.nodeLabel}\",width=$nodeSize${if (any.javaClass.isArray) ",fontname=\"Times-Italic\"" else ""}];")
 }
 
 private val Any.nodeLabel: String?
