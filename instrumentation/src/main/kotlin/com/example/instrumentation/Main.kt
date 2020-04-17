@@ -6,6 +6,7 @@ import com.example.instrumentation.agent.InstrumentationAgent
 import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.collections.LinkedHashMap
 
 fun main(args: Array<String>) {
     printObjectSizes()
@@ -179,10 +180,10 @@ fun printObjectSize(any: Any, description: String) {
 
 @Suppress("unused")
 private fun printCollectionSizes(dotOutputDir: File) {
-    val map = mutableMapOf<String, String>().also {
+    val map = LinkedHashMap<String, String>().also {
         fill { key, value -> it[key] = value }
     }
-    evaluateSize("mutableMapOf", map, dotOutputDir)
+    evaluateSize("LinkedHashMap", map, dotOutputDir)
 
     val any = object {
         val MPEVTG: String = "ANKZVT"
