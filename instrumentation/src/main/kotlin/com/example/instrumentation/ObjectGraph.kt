@@ -55,7 +55,7 @@ private fun Writer.appendFieldReferences(
 
 private fun Writer.appendObjectNode(any: Any) {
     val size = InstrumentationAgent.getSize(any)
-    appendln("  \"${any.nodeName}\" [ label = \"${any.nodeName}\\nsize=$size\"];")
+    appendln("  \"${any.nodeName}\" [ label = \"${any.javaClass.name}\\nsize=$size\"];")
 }
 
 private fun Writer.appendReferenceEdge(from: Any, to: Any, label: String, visited: MutableSet<Int>) {
