@@ -21,6 +21,9 @@ fun main(args: Array<String>) {
     println()
 
     printLargeMapSize()
+    println()
+
+    printObjectVsMap()
 }
 
 @Suppress("unused")
@@ -224,7 +227,6 @@ private fun printCollectionSizes(dotOutputDir: File) {
         "augnqe" to "KDUNYJ"
     )
     evaluateSize("mapOf", map, dotOutputDir)
-
 }
 
 private inline fun fill(block: (String, String) -> Unit) {
