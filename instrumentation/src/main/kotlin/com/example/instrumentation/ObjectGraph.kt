@@ -9,8 +9,8 @@ import java.lang.reflect.Modifier
 fun Writer.appendObjectGraph(any: Any) = apply {
     appendln("digraph {")
     appendln(" bgcolor=transparent;")
-    appendln(" node[fontsize=12,shape=box,fixedsize=true,color=white;fontcolor=white];")
-    appendln(" edge[fontsize=12,color=white,fontcolor=white];")
+    appendln(" node[fontsize=12,shape=box,fixedsize=true];")
+    appendln(" edge[fontsize=12];")
     appendObjectGraph(any, mutableSetOf())
     appendln("}")
 }
